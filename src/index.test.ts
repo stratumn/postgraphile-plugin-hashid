@@ -4,7 +4,8 @@ import { mocked } from 'ts-jest/utils';
 jest.mock('graphile-utils');
 jest.mock('./fieldPlugin', () => ({
   hashIdInputPlugin: 'hashIdInputPlugin',
-  hashIdOutputPlugin: 'hashIdOutputPlugin'
+  hashIdOutputPlugin: 'hashIdOutputPlugin',
+  hashIdNodeIdPlugin: 'hashIdNodeIdPlugin'
 }));
 jest.mock('./queryPlugin', () => 'hashIdQueryArgsPlugin');
 
@@ -17,6 +18,7 @@ describe('hashId plugin', () => {
     expect(mockCombinePlugins).toHaveBeenCalledWith(
       'hashIdOutputPlugin',
       'hashIdInputPlugin',
+      'hashIdNodeIdPlugin',
       'hashIdQueryArgsPlugin'
     );
   });

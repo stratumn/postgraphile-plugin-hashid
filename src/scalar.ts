@@ -4,7 +4,7 @@ import HashIds from 'hashids';
 
 const salt = process.env.HASHID_SALT || 'secret';
 
-const hashids = new HashIds(salt, 12);
+export const hashids = new HashIds(salt, 12);
 
 export const graphQLHashId: GraphQLScalarType = new GraphQLScalarType({
   name: 'HashId',
