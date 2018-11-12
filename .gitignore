@@ -1,0 +1,14 @@
+yarn-error.log
+
+# node dependencies
+node_modules
+
+# JS jest code coverage
+coverage
+
+# server build
+lib
+build
+
+### General Stuff
+.DS_Store
