@@ -21,7 +21,8 @@
     "build": "tsc",
     "lint": "tslint --project \"./tsconfig.json\"",
     "test": "yarn test:ci --watchAll",
-    "test:ci": "jest --testRegex=\".*\\.test\\.ts$\""
+    "test:ci": "jest --testRegex=\".*\\.test\\.ts$\"",
+    "release": "semantic-release"
   },
   "dependencies": {
     "@types/lodash.snakecase": "^4.1.4",
@@ -33,14 +34,18 @@
     "lodash.snakecase": "^4.1.1"
   },
   "devDependencies": {
+    "@semantic-release/git": "^7.0.5",
     "@types/jest": "^23.3.5",
+    "husky": "^1.2.0",
     "jest": "^23.6.0",
     "mock-req": "^0.2.0",
+    "semantic-release": "^15.12.1",
     "ts-jest": "^23.10.4",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3.1.3"
+    "typescript": "^3.1.3",
+    "validate-commit": "^3.4.0"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
@@ -53,5 +58,29 @@
       "\\.ts$": "ts-jest"
     },
     "testRegex": "/src/.*\\.test\\.ts$"
+  },
+  "release": {
+    "branch": "master",
+    "preset": "eslint",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json"
+          ],
+          "message": "${nextRelease.version}"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg -p eslint"
+    }
   }
 }
