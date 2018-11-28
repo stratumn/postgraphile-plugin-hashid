@@ -36,7 +36,7 @@ export const hashIdNodeIdPlugin: Plugin = builder => {
     ...build,
     getNodeIdForTypeAndIdentifiers(type: any, ...identifiers: any) {
       return base64(
-        JSON.stringify([this.getNodeAlias(type), hashids.encode(identifiers)])
+        JSON.stringify([build.getNodeAlias(type), hashids.encode(identifiers)])
       );
     },
     getTypeAndIdentifiersFromNodeId(nodeId: any) {
