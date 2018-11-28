@@ -25,9 +25,9 @@
   },
   "dependencies": {
     "@types/lodash.snakecase": "^4.1.4",
-    "graphile-build": "^4.1.0-rc.0",
-    "graphile-build-pg": "^4.1.0-rc.0",
-    "graphile-utils": "^4.1.0-rc.0",
+    "graphile-build": "^4.1.0-rc.2",
+    "graphile-build-pg": "^4.1.0-rc.2",
+    "graphile-utils": "^4.1.0-rc.2",
     "graphql": "^14.0",
     "hashids": "^1.2.2",
     "lodash.snakecase": "^4.1.1"
