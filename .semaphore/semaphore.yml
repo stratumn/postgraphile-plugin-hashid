@@ -1,0 +1,40 @@
+version: v1.0
+name: Postgraphile plugin hashid pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: 'Build'
+    task:
+      prologue:
+        commands:
+          - checkout
+          - yarn
+      jobs:
+        - name: Typescript build
+          commands:
+            # Build and cache the output folder.
+            - DIST_KEY=lib-${SEMAPHORE_GIT_SHA}
+            - yarn build
+            - cache store $DIST_KEY lib
+
+  - name: 'Unit tests'
+    task:
+      prologue:
+        commands:
+          - checkout
+          - yarn
+      jobs:
+        - name: Lint
+          commands:
+            - yarn lint
+
+        - name: Tests
+          commands:
+            - yarn test:ci
+
+promotions:
+  - name: Publish to npm registry
+    pipeline_file: npm-publish.yml
