@@ -1,0 +1,26 @@
+version: v1.0
+name: Publish postgraphile-plugin-hashid to npm registry
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Publish
+    task:
+      secrets:
+        - name: npm-token-publish
+        - name: github-write
+      prologue:
+        commands:
+          - checkout
+          - yarn
+      jobs:
+        - name: Semantic Release
+          commands:
+            # We need to export the branch name in order for semantic-release to proceed.
+            - export BRANCH_NAME=$SEMAPHORE_GIT_BRANCH
+            - DIST_KEY=lib-${SEMAPHORE_GIT_SHA}
+            - cache restore $DIST_KEY
+            - cache has_key $DIST_KEY || yarn build
+            - yarn release
