@@ -59,12 +59,12 @@ The commit message summary should follow the following format: `Tag: Message (fi
 
 Where `Tag` is one of the following:
 
-- Fix - for a bug fix.
-- Update - for a backwards-compatible enhancement.
-- Breaking - for a backwards-incompatible enhancement.
+- Fix - for a bug fix (patch).
+- Update - for a backwards-compatible enhancement (minor).
+- New - implemented a new feature (minor).
+- Breaking - for a backwards-incompatible enhancement (major).
 - Docs - changes to documentation only.
 - Build - changes to build process only.
-- New - implemented a new feature.
 - Upgrade - for a dependency upgrade.
 
 Rules about `Message`

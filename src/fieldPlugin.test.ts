@@ -5,9 +5,14 @@ import {
   hashIdNodeIdPlugin
 } from './fieldPlugin';
 import { transformBigIntToHashId } from './transform';
+import { encode, decode } from './scalar';
 
 jest.mock('./transform');
 const mockTransformBigIntToHashId = mocked(transformBigIntToHashId);
+
+jest.mock('./scalar');
+const mockEncode = mocked(encode);
+const mockDecode = mocked(decode);
 
 const builder: any = { hook: jest.fn() };
 const options: any = null;
@@ -16,6 +21,8 @@ describe('hashId plugin', () => {
   beforeEach(() => {
     builder.hook.mockClear();
     mockTransformBigIntToHashId.mockClear();
+    mockEncode.mockImplementationOnce(x => x);
+    mockDecode.mockImplementationOnce(x => x);
   });
 
   it('calls hashIdInputPlugin', () => {
@@ -80,8 +87,8 @@ describe('hashId plugin', () => {
     } = extendedBuild;
     expect(originBuild).toEqual(build);
 
-    // Test encodingh functions
-    const nodeIdValue = 'WyJhbGlhc19ub2RlVHlwZSIsInJSNUpwRFNWSlZwTyJd';
+    // Test encoding functions
+    const nodeIdValue = 'WyJhbGlhc19ub2RlVHlwZSIsWzQyLDQzXV0=';
     const Type = 'nodeType';
     const identifiers = [42, 43];
     // Test encode
@@ -93,6 +100,7 @@ describe('hashId plugin', () => {
     expect(getNodeIdForTypeAndIdentifiers(Type, ...identifiers)).toBe(
       nodeIdValue
     );
+    expect(mockEncode).toBeCalled();
     // Test decode
     expect(getTypeAndIdentifiersFromNodeId).not.toBeUndefined();
     (build as any).getNodeType = jest.fn();
@@ -103,5 +111,6 @@ describe('hashId plugin', () => {
       Type,
       identifiers
     });
+    expect(mockDecode).toBeCalled();
   });
 });

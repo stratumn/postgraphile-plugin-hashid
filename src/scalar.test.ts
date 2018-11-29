@@ -1,6 +1,10 @@
-import { graphQLHashId } from './scalar';
+import { graphQLHashId, initHashIds } from './scalar';
 
 describe('graphQLHashId', () => {
+  beforeEach(() => {
+    initHashIds('secret', 12);
+  });
+
   it('serialize', () => {
     expect(graphQLHashId.serialize(42)).toEqual('xBVnl0jNoz3b');
   });
