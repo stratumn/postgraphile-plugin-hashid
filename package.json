@@ -1,6 +1,6 @@
 {
   "name": "@stratumn/postgraphile-plugin-hashid",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "PostGraphile plugin to replace database big int by hash ids",
   "license": "Apache-2.0",
   "repository": {
