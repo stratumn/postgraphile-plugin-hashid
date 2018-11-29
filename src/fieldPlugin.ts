@@ -1,6 +1,6 @@
 import { Plugin } from 'graphile-build';
 import { transformBigIntToHashId } from './transform';
-import { hashids } from './scalar';
+import { encode, decode } from './scalar';
 
 export const hashIdInputPlugin: Plugin = builder => {
   builder.hook('GraphQLInputObjectType:fields:field', (field, build, context) =>
@@ -36,14 +36,14 @@ export const hashIdNodeIdPlugin: Plugin = builder => {
     ...build,
     getNodeIdForTypeAndIdentifiers(type: any, ...identifiers: any) {
       return base64(
-        JSON.stringify([build.getNodeAlias(type), hashids.encode(identifiers)])
+        JSON.stringify([build.getNodeAlias(type), encode(identifiers)])
       );
     },
     getTypeAndIdentifiersFromNodeId(nodeId: any) {
-      const [alias, ...identifiers] = JSON.parse(base64Decode(nodeId));
+      const [alias, identifier] = JSON.parse(base64Decode(nodeId));
       return {
         Type: build.getNodeType(alias),
-        identifiers: hashids.decode(...identifiers)
+        identifiers: decode(identifier)
       };
     }
   }));

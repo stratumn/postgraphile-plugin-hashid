@@ -2,23 +2,29 @@ import { GraphQLScalarType, ValueNode } from 'graphql';
 
 import HashIds from 'hashids';
 
-const salt = process.env.HASHID_SALT || 'secret';
+let hashids: any = undefined;
 
-export const hashids = new HashIds(salt, 12);
+export const initHashIds = (salt: string, length: number) => {
+  hashids = new HashIds(salt, length);
+};
+
+export const encode = (...value: number[]) => hashids.encode(...value);
+export const decode = (value: string) => hashids.decode(value);
+export const decodeOne = (value: string) => decode(value)[0];
 
 export const graphQLHashId: GraphQLScalarType = new GraphQLScalarType({
   name: 'HashId',
   description: `The HashId scalar type represents a int id hashed using hashids algorithm`,
   serialize(value: any) {
-    return hashids.encode(value);
+    return encode(value);
   },
   parseValue(value: any) {
-    return hashids.decode(value)[0];
+    return decodeOne(value);
   },
   parseLiteral(value: ValueNode) {
     switch (value.kind) {
       case 'StringValue':
-        return hashids.decode(value.value)[0];
+        return decodeOne(value.value);
       default:
         throw `Cannot decode unmanaged literal ${value.kind}`;
     }
